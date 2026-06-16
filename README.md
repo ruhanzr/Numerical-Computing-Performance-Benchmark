@@ -51,8 +51,8 @@ For each size, I ran three trials, recorded the runtime, and calculated average 
 After getting baseline timing data, I tried to improve performance by changing the loop order. The original implementation used KIJ loop ordering, and I first compared it against an IJK-style implementation.
 
 I created a duplicate function where I could test this, it was the same function but with the variables reordered. Below are my results for the original KIJ loop, and my reordered IJK loop.
-![KIJ Loop Order](images/old_BASELINE_KIJ.png)
-![IJK Loop Order](images/old_optimized_IJK.png)
+![KIJ Loop Order Results](images/old_BASELINE_KIJ.png)
+![IJK Loop Order Results](images/old_optimized_IJK.png)
 
 The checksums for both versions were the same, meaning both algorithms produced the same output. However, the runtime changed slightly. As seen in the table, the IJK version showed a small speedup, with the performance gains becoming more noticeable as matrix size increased.
 
@@ -85,12 +85,12 @@ Based on this, I predicted that loop orders with more row-wise memory access wou
 Although I expected IKJ to perform better because of its row-wise access pattern, my benchmark showed that IJK was faster under my testing conditions. Since the implementations were structurally very similar, this result suggests that performance is affected by more than just the predicted memory access pattern. Compiler behavior, timing noise, register usage, and system load may have contributed to the difference. Because of this, I treated the benchmark results as empirical rather than assuming the theoretically more cache-friendly loop order would always be fastest.
 
 Because of these results, I tested all six possible loop orderings:
-* IJK ![IJK](images/old_optimized_IJK.png)
-* IKJ ![IKJ](images/IKJ.png)
-* JIK ![JIK](images/JIK.png)
-* JKI ![JKI](images/JKI.png)
-* KIJ ![KIJ](images/KIJ.png)
-* KJI ![KJI](images/KJI.png)
+* IJK ![IJK Results](images/old_optimized_IJK.png)
+* IKJ ![IKJ Results](images/IKJ.png)
+* JIK ![JIK Results](images/JIK.png)
+* JKI ![JKI Results](images/JKI.png)
+* KIJ ![KIJ Results](images/KIJ.png)
+* KJI ![KJI Results](images/KJI.png)
 
 Before testing, I expected loop orders with more row-wise access to perform better because C stores 2D arrays in row-major order. The results showed that IJK was the fastest for larger matrix sizes on my machine, reaching about a 1.12× speedup over the slowest/baseline ordering at 400×400 in the original benchmark data.
 
@@ -123,8 +123,8 @@ I also noticed that the timing data was inconsistent between runs. My best guess
 ## Updated Benchmark Results
 
 Now having a quick way to benchmark, I opted to redo some of the important data I had already gotten which includes the baseline test in the original algorithm, the altered IJK ordered loop, and I recalculated the speed up times using it. I noticed that the new runtimes were longer across all versions compared to the earlier results. Because of this, the earlier data should not be directly compared to the newer data. Some external factor likely increased the load on my computer and reduced overall performance.
-![New KIJ Loop Order](images/new_BASELINE_KIJ.png)
-![New IJK Loop Order](images/new_optimized_IJK.png)
+![New KIJ Loop Order Results](images/new_BASELINE_KIJ.png)
+![New IJK Loop Order Results](images/new_optimized_IJK.png)
 
 The relative performance gains also changed slightly. In the earlier results, switching from KIJ to IJK produced about a 1.12× speedup at 400×400. In the newer data, the same comparison produced about a 1.07× speedup.
 
